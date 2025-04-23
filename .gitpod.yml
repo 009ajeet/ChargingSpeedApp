@@ -1,0 +1,23 @@
+image: gradle:8.2.1-jdk17
+
+tasks:
+  - init: |
+      echo "Installing Android SDK..."
+      mkdir -p $HOME/android-sdk
+      cd $HOME/android-sdk
+      curl -sSLo sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip
+      unzip -q sdk.zip -d cmdline-tools
+      mv cmdline-tools cmdline-tools-tools
+      mkdir -p $HOME/.android
+      touch $HOME/.android/repositories.cfg
+      export ANDROID_HOME=$HOME/android-sdk
+      export PATH=$ANDROID_HOME/cmdline-tools-tools/bin:$ANDROID_HOME/platform-tools:$PATH
+      yes | sdkmanager --licenses
+      sdkmanager "platform-tools" "build-tools;30.0.3" "platforms;android-30"
+
+  - name: Set up Gradle & Build APK
+    command: |
+      export ANDROID_HOME=$HOME/android-sdk
+      export PATH=$ANDROID_HOME/cmdline-tools-tools/bin:$ANDROID_HOME/platform-tools:$PATH
+      gradle wrapper
+      ./gradlew assembleDebug

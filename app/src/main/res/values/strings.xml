@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Charging Speed App</string>
+    <string name="charging_speed_label">Charging Speed (mAh):</string>
+    <string name="volume_control_label">Volume Control:</string>
+    <string name="increase_volume">Increase Volume</string>
+    <string name="decrease_volume">Decrease Volume</string>
+    <string name="current_volume">Current Volume:</string>
+    <string name="error_message">Error retrieving data. Please try again.</string>
+</resources>

@@ -1,0 +1,17 @@
+# Gradle
+.gradle/
+build/
+*/build/
+
+# Android Studio / VS Code
+.idea/
+.vscode/
+
+# Kotlin
+*.iml
+
+# Generated APKs
+app/**/*.apk
+
+# Local config, keys, etc.
+local.properties

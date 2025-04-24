@@ -1,23 +1,38 @@
-image: gradle:8.2.1-jdk17
+// filepath: c:\Users\91807\Desktop\python script\ChargingSpeedApp\.gitpod.yml
+image: gitpod/workspace-android-legacy # Use a Gitpod image with Android tools pre-installed
 
 tasks:
-  - init: |
-      echo "Installing Android SDK..."
-      mkdir -p $HOME/android-sdk
-      cd $HOME/android-sdk
-      curl -sSLo sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip
-      unzip -q sdk.zip -d cmdline-tools
-      mv cmdline-tools cmdline-tools-tools
-      mkdir -p $HOME/.android
-      touch $HOME/.android/repositories.cfg
-      export ANDROID_HOME=$HOME/android-sdk
-      export PATH=$ANDROID_HOME/cmdline-tools-tools/bin:$ANDROID_HOME/platform-tools:$PATH
-      yes | sdkmanager --licenses
-      sdkmanager "platform-tools" "build-tools;30.0.3" "platforms;android-30"
+  - name: Accept Licenses & Build APK
+    init: |
+      echo "Setting up Android SDK environment..."
+      # The image should have SDK pre-installed, but ensure paths are set if needed
+      # export ANDROID_SDK_ROOT=${ANDROID_HOME:-/usr/local/lib/android/sdk} # Adjust path based on image
+      # export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools
 
-  - name: Set up Gradle & Build APK
+      echo "Accepting SDK licenses..."
+      yes | sdkmanager --licenses || echo "Failed to accept licenses, continuing..."
+
+      echo "Ensuring gradlew is executable..."
+      chmod +x ./gradlew # Make sure gradlew script is executable
+
+      echo "Running Gradle build..."
+      ./gradlew assembleDebug # Build the debug APK
     command: |
-      export ANDROID_HOME=$HOME/android-sdk
-      export PATH=$ANDROID_HOME/cmdline-tools-tools/bin:$ANDROID_HOME/platform-tools:$PATH
-      gradle wrapper
-      ./gradlew assembleDebug
+      echo "Workspace is ready. APK should be in app/build/outputs/apk/debug/"
+      echo "You can run './gradlew assembleDebug' again to rebuild."
+
+ports:
+  # Define ports if needed for emulators or debugging
+  - port: 5900 # Example for VNC if running an emulator visually
+    onOpen: ignore
+  - port: 6080
+    onOpen: ignore
+
+# Optional: Add VS Code extensions for Android/Kotlin development
+vscode:
+  extensions:
+    - vscjava.vscode-java-pack
+    - fwcd.kotlin
+    - redhat.java
+    - vscjava.vscode-gradle
+    - ms-vscode.vscode-github-issue-notebooks

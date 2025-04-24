@@ -1,34 +1,50 @@
+<!-- filepath: c:\Users\91807\Desktop\python script\ChargingSpeedApp\app\src\main\res\layout\activity_main.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/charging_speed_text"
+        android:id="@+id/charging_speed_label" <!-- Changed ID -->
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/charging_speed_label"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/charging_speed_value"
+        android:id="@+id/charging_speed_value" <!-- Kept ID -->
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0 mAh"
+        android:layout_marginTop="4dp"
+        android:text="Calculating..."
+        android:textSize="24sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/volume_label" <!-- Changed ID -->
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/volume_control_label"
         android:textSize="20sp" />
 
     <SeekBar
-        android:id="@+id/volume_control"
+        android:id="@+id/volume_control" <!-- Kept ID -->
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="100" />
+        android:layout_marginTop="8dp"
+        android:max="100" /> <!-- Max is set programmatically too -->
 
     <TextView
-        android:id="@+id/volume_value"
+        android:id="@+id/volume_value" <!-- Kept ID -->
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/volume_label"
-        android:textSize="24sp" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:text="@string/current_volume_label"
+        android:textSize="18sp" />
 
 </LinearLayout>

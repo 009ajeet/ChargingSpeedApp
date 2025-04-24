@@ -1,50 +1,42 @@
+// filepath: c:\Users\91807\Desktop\python script\ChargingSpeedApp\app\src\main\java\com\example\chargingspeedapp\VolumeController.kt
 package com.example.chargingspeedapp
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import android.widget.TextView
-import android.widget.SeekBar
-import android.widget.Toast
+import android.content.Context
+import android.media.AudioManager
+import android.util.Log
 
-class MainActivity : AppCompatActivity() {
+class VolumeController(context: Context) {
 
-    private lateinit var chargingSpeedManager: ChargingSpeedManager
-    private lateinit var volumeController: VolumeController
-    private lateinit var chargingSpeedTextView: TextView
-    private lateinit var volumeSeekBar: SeekBar
+    private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    private val streamType = AudioManager.STREAM_VOICE_CALL // Control call volume
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        chargingSpeedManager = ChargingSpeedManager(this)
-        volumeController = VolumeController(this)
-
-        chargingSpeedTextView = findViewById(R.id.chargingSpeedTextView)
-        volumeSeekBar = findViewById(R.id.volumeSeekBar)
-
-        updateChargingSpeed()
-        setupVolumeControl()
+    fun setVolume(progress: Int) {
+        val maxVolume = audioManager.getStreamMaxVolume(streamType)
+        val targetVolume = (progress / 100.0 * maxVolume).toInt()
+        try {
+             audioManager.setStreamVolume(streamType, targetVolume, 0) // Flag 0 means no UI shown
+             Log.d("VolumeController", "Setting call volume to $targetVolume (Progress: $progress)")
+        } catch (e: SecurityException) {
+             Log.e("VolumeController", "Permission denied to change audio settings.", e)
+             // Handle lack of permission (e.g., show a message to the user)
+        } catch (e: Exception) {
+             Log.e("VolumeController", "Error setting volume", e)
+        }
     }
 
-    private fun updateChargingSpeed() {
-        val chargingSpeed = chargingSpeedManager.getChargingSpeed()
-        chargingSpeedTextView.text = getString(R.string.charging_speed, chargingSpeed)
+    fun getCurrentVolume(): Int {
+         try {
+            val maxVolume = audioManager.getStreamMaxVolume(streamType)
+            val currentVolume = audioManager.getStreamVolume(streamType)
+            // Convert current volume to a percentage (0-100)
+            return if (maxVolume > 0) (currentVolume * 100.0 / maxVolume).toInt() else 0
+         } catch (e: Exception) {
+             Log.e("VolumeController", "Error getting current volume", e)
+             return 0 // Default to 0 on error
+         }
     }
 
-    private fun setupVolumeControl() {
-        volumeSeekBar.max = 100 // Assuming volume is from 0 to 100
-        volumeSeekBar.progress = volumeController.getCurrentVolume()
-
-        volumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                volumeController.setVolume(progress)
-                Toast.makeText(this@MainActivity, "Volume set to $progress", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+     fun getMaxVolume(): Int {
+        return audioManager.getStreamMaxVolume(streamType)
     }
 }

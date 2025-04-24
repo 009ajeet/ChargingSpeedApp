@@ -1,9 +1,11 @@
+<!-- filepath: c:\Users\91807\Desktop\python script\ChargingSpeedApp\app\src\main\res\values\strings.xml -->
 <resources>
     <string name="app_name">Charging Speed App</string>
-    <string name="charging_speed_label">Charging Speed (mAh):</string>
-    <string name="volume_control_label">Volume Control:</string>
-    <string name="increase_volume">Increase Volume</string>
-    <string name="decrease_volume">Decrease Volume</string>
-    <string name="current_volume">Current Volume:</string>
+    <string name="charging_speed_label">Charging Speed:</string>
+    <string name="volume_control_label">Call Volume Control:</string>
+    <!-- Removed unused volume buttons -->
+    <string name="current_volume_label">Current Volume: %1$d%%</string> <!-- Added placeholder for percentage -->
     <string name="error_message">Error retrieving data. Please try again.</string>
+    <!-- Add theme name if needed, e.g., for AndroidManifest.xml -->
+    <string name="theme_name">Theme.ChargingSpeedApp</string>
 </resources>

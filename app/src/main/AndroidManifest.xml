@@ -1,5 +1,15 @@
+<!-- filepath: c:\Users\91807\Desktop\python script\ChargingSpeedApp\app\src\main\AndroidManifest.xml -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" <!-- Add tools namespace -->
     package="com.example.chargingspeedapp">
+
+    <!-- BATTERY_STATS is a protected permission, normal apps cannot acquire it.
+         Remove it as the current code uses BatteryManager properties instead. -->
+    <!-- <uses-permission android:name="android.permission.BATTERY_STATS"
+                     tools:ignore="ProtectedPermissions" /> -->
+
+    <!-- MODIFY_AUDIO_SETTINGS is needed for volume control -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -7,8 +17,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ChargingSpeedApp">
-        <activity android:name=".MainActivity">
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"  > <!-- Use a standard theme or define your own -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"> <!-- Set exported explicitly -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -16,6 +28,4 @@
         </activity>
     </application>
 
-    <uses-permission android:name="android.permission.BATTERY_STATS" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 </manifest>

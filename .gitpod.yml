@@ -1,13 +1,20 @@
-image: gitpod/workspace-android-legacy # Use a Gitpod image with Android tools pre-installed
+image: gitpod/workspace-full # Try a more standard image
 
 tasks:
   - name: Accept Licenses & Prepare Build
     init: |
       echo "Setting up Android SDK environment..."
-      # ... (environment setup comments remain the same) ...
+      # Check if Android SDK needs installation/setup in workspace-full
+      # Potentially add sdkmanager commands here if needed
 
       echo "Accepting SDK licenses..."
-      yes | sdkmanager --licenses || echo "Failed to accept licenses, continuing..."
+      # Ensure sdkmanager is available before running
+      if command -v sdkmanager &> /dev/null; then
+          yes | sdkmanager --licenses || echo "Failed to accept licenses (sdkmanager might need setup)."
+      else
+          echo "sdkmanager not found. Android SDK might need installation."
+      fi
+
 
       echo "Ensuring gradlew is executable..."
       chmod +x ./gradlew # Make sure gradlew script is executable
@@ -18,6 +25,8 @@ tasks:
       echo "Workspace is ready. APK build was skipped during init."
       echo "Run './gradlew assembleDebug' manually in the terminal to build the APK."
       echo "The APK will be in app/build/outputs/apk/debug/"
+
+
 ports:
   # Define ports if needed for emulators or debugging
   - port: 5900 # Example for VNC if running an emulator visually

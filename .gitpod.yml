@@ -1,4 +1,4 @@
-// filepath: c:\Users\91807\Desktop\python script\ChargingSpeedApp\.gitpod.yml
+# REMOVED: // filepath: c:\Users\91807\Desktop\python script\ChargingSpeedApp\.gitpod.yml
 image: gitpod/workspace-android-legacy # Use a Gitpod image with Android tools pre-installed
 
 tasks:

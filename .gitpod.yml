@@ -1,13 +1,10 @@
-# REMOVED: // filepath: c:\Users\91807\Desktop\python script\ChargingSpeedApp\.gitpod.yml
 image: gitpod/workspace-android-legacy # Use a Gitpod image with Android tools pre-installed
 
 tasks:
-  - name: Accept Licenses & Build APK
+  - name: Accept Licenses & Prepare Build
     init: |
       echo "Setting up Android SDK environment..."
-      # The image should have SDK pre-installed, but ensure paths are set if needed
-      # export ANDROID_SDK_ROOT=${ANDROID_HOME:-/usr/local/lib/android/sdk} # Adjust path based on image
-      # export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools
+      # ... (environment setup comments remain the same) ...
 
       echo "Accepting SDK licenses..."
       yes | sdkmanager --licenses || echo "Failed to accept licenses, continuing..."
@@ -15,12 +12,12 @@ tasks:
       echo "Ensuring gradlew is executable..."
       chmod +x ./gradlew # Make sure gradlew script is executable
 
-      echo "Running Gradle build..."
-      ./gradlew assembleDebug # Build the debug APK
+      # echo "Running Gradle build..." # Temporarily comment out the build
+      # ./gradlew assembleDebug # Temporarily comment out the build
     command: |
-      echo "Workspace is ready. APK should be in app/build/outputs/apk/debug/"
-      echo "You can run './gradlew assembleDebug' again to rebuild."
-
+      echo "Workspace is ready. APK build was skipped during init."
+      echo "Run './gradlew assembleDebug' manually in the terminal to build the APK."
+      echo "The APK will be in app/build/outputs/apk/debug/"
 ports:
   # Define ports if needed for emulators or debugging
   - port: 5900 # Example for VNC if running an emulator visually
